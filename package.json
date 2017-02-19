@@ -1,0 +1,24 @@
+{
+  "name": "mega-workout",
+  "version": "1.0.0",
+  "description": "Mega workout.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heennkkee/mega-workout.git"
+  },
+  "author": "Henrik Aronsson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/heennkkee/mega-workout/issues"
+  },
+  "homepage": "https://github.com/heennkkee/mega-workout#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0"
+  }
+}
