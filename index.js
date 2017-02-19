@@ -21,19 +21,21 @@ app.set('views', path.join(__dirname, 'views'));
 // Cookie middleware
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-    //console.log('cookies: ', req.cookies);
-    next();
-});
+//Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-    // console.log(req);
+    // console.log('cookies: ', req.cookies);
+    // console.log(Object.keys(req));
+    // console.log(req.url);
     next();
 });
 
 app.get('/', (req, res) => {
-    res.render('home', {
-        name: 'John'
+    res.render('card', {
+        title: 'Hem',
+        cardTitle: 'Testkort',
+        cardText: 'Hejsan'
     });
 });
 

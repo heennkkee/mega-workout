@@ -1,0 +1,7 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.mdl-layout__drawer-button > .material-icons {
+    line-height: 45px !important;
+}

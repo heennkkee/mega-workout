@@ -1,8 +1,43 @@
 <html>
     <head>
-        <title>Express handlebars</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <link href="css/material_blue.css" rel="stylesheet" type="text/css">
+
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <link rel="icon" type="image/png" href="images/favicon.ico">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+
+        <title>Ryggbiffarna</title>
     </head>
     <body>
-        {{{body}}}
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+                <div class="mdl-layout__header-row">
+                    <!-- Title -->
+                    <span class="mdl-layout-title">{{title}}</span>
+                </div>
+            </header>
+            <div class="mdl-layout__drawer">
+                <span class="mdl-layout-title">Ryggbiffarna</span>
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="/">Hem</a>
+                    <a class="mdl-navigation__link" href="/resultat">Resultat</a>
+                    <a class="mdl-navigation__link" href="/ovningar">Övningar</a>
+                    <a class="mdl-navigation__link" href="/personer">Personer</a>
+                    <a class="mdl-navigation__link" href="/historik">Historik</a>
+                    <a class="mdl-navigation__link" href="/pass">Pass</a>
+                    <a class="mdl-navigation__link" href="/logout">Logga ut</a>
+                </nav>
+            </div>
+            <div class="mdl-grid">
+                {{{body}}}
+            </div>
+        </div>
+        <script defer src="js/functions.js"></script>
+        <script defer src="js/material.js"></script>
     </body>
 </html>
