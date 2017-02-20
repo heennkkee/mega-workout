@@ -9,12 +9,7 @@ body {
 .mdl-card {
     margin: 8px;
     max-width: 512px;
-    transition: order 1s;
-}
-
-.flex {
-    display: flex;
-    flex-direction: column;
+    transition: margin 1s;
 }
 
 .mdl-card.full-width {
