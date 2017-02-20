@@ -39,6 +39,15 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/ovningar', (req, res) => {
+    res.render('table', {
+        title: 'Övningar',
+        headers: '<tr><th>Titel</th><th>Igen</th><th>Tre</th></tr>',
+        rows: '<tr><td class="mdl-data-table__cell--non-numeric">Test</td><td class="mdl-data-table__cell--non-numeric">Hej</td><td class="mdl-data-table__cell--non-numeric">Idag</td></tr>',
+        addButton: true
+    });
+});
+
 app.use((err, req, res, next) => {
     console.log(err);
     res.status(500).send('Something broke!');

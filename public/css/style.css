@@ -5,3 +5,29 @@ body {
 .mdl-layout__drawer-button > .material-icons {
     line-height: 45px !important;
 }
+
+.mdl-card {
+    margin: 8px;
+    max-width: 512px;
+    transition: order 1s;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.mdl-card.full-width {
+    width: calc(100% - 16px);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.mdl-button.absolute-bottom-right {
+    position: absolute;
+    z-index: 4;
+    right: 20px;
+    bottom: 20px;
+}
