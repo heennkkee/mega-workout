@@ -3,6 +3,8 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const cookieParser = require('cookie-parser');
 
+const data = require('./modules/data');
+
 const app = express();
 
 const port = 80;
@@ -32,11 +34,17 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    res.render('card', {
-        title: 'Hem',
-        cardTitle: 'Testkort',
-        cardText: 'Hejsan'
+    data.query("SELECT * FROM WHITELIST");
+    data.fetch(function() {
+
+        res.render('table', {
+            title: 'Hem',
+            headers: 'nope',
+            rows: data.MDLTableRows([0, 1]),
+            addButton: true
+        });
     });
+
 });
 
 app.get('/ovningar', (req, res) => {
@@ -45,6 +53,17 @@ app.get('/ovningar', (req, res) => {
         headers: '<tr><th>Titel</th><th>Igen</th><th>Tre</th></tr>',
         rows: '<tr><td class="mdl-data-table__cell--non-numeric">Test</td><td class="mdl-data-table__cell--non-numeric">Hej</td><td class="mdl-data-table__cell--non-numeric">Idag</td></tr>',
         addButton: true
+    });
+});
+
+app.get('/setup', (req, res) => {
+
+    data.setup();
+
+    res.render('card', {
+        title: 'Setup',
+        cardTitle: 'Setup',
+        cardText: 'Skapande av tabeller utförd.'
     });
 });
 

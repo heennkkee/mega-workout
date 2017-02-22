@@ -9,7 +9,6 @@ body {
 .mdl-card {
     margin: 8px;
     max-width: 512px;
-    transition: margin 1s;
 }
 
 .mdl-card.full-width {
