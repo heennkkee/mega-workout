@@ -62,22 +62,29 @@ app.get('/ovningar/edit/:id', (req, res) =>  {
     var id = req.params.id;
 
     if (isNaN(id)) {
-        res.redirect(400, '..');
-        return;
-    }
-    data.query("SELECT ID, NAMN FROM OVNINGAR WHERE ID = $id");
-    data.setParam('$id', id);
-    data.fetch(() => {
-        if (!data.isDataSet()) {
-            res.redirect(404, '..');
-            return;
-        }
         res.render('card', {
             title: 'Övningar, edit',
-            cardTitle: 'Redigera övning',
-            cardText: 'id: ' + req.params.id
+            cardTitle: 'Övning saknas'
         });
-    });
+    } else {
+        data.query("SELECT ID, NAMN FROM OVNINGAR WHERE ID = $id");
+        data.setParam('$id', id);
+        data.fetch(() => {
+            if (!data.isDataSet()) {
+                res.render('card', {
+                    title: 'Övningar, edit',
+                    cardTitle: 'Övning saknas',
+                    cardText: 'id: ' + req.params.id + ' finns ej.'
+                });
+            } else {
+                res.render('card', {
+                    title: 'Övningar, edit',
+                    cardTitle: 'Redigera övning',
+                    cardText: 'id: ' + req.params.id
+                });
+            }
+        });
+    }
 });
 
 app.get('/setup', (req, res) => {
