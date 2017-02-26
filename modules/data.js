@@ -11,7 +11,12 @@ function RyggbiffsData() {
 
     var Query = "test";
     var Data = null;
+    var dataIsSet = false;
     var Params = {};
+
+    this.isDataSet = function() {
+        return dataIsSet;
+    }
 
     this.setDbMode = function(mode) {
         if (mode === 'parallel') {
@@ -62,12 +67,16 @@ function RyggbiffsData() {
     }
 
     this.fetch = function(callback) {
+        dataIsSet = false;
         if (Object.keys(Params).length > 0) {
             db.all(Query, Params, function(err, rows) {
                 if (err !== null) {
-                    console.log(err);
+                    console.log("error", err);
                 } else {
                     Data = rows;
+                    if (rows.length !== 0) {
+                        dataIsSet = true;
+                    }
                 }
                 if (typeof callback === "function") {
                     callback();
@@ -76,9 +85,12 @@ function RyggbiffsData() {
         } else {
             db.all(Query, function(err, rows) {
                 if (err !== null) {
-                    console.log(err);
+                    console.log("error", err);
                 } else {
                     Data = rows;
+                    if (rows.length !== 0) {
+                        dataIsSet = true;
+                    }
                 }
                 if (typeof callback === "function") {
                     callback();
@@ -92,18 +104,75 @@ function RyggbiffsData() {
         return Data;
     }
 
-    this.MDLTableRows = function(columns) {
-        var rows = '', x, y, headers;
+    this.MDLTableHeaders = function (columns) {
+        var headers, returnHeaders, value, x;
+
+        if (!dataIsSet) {
+            console.log("Data isn't set, unable to retrieve headers!");
+            return "No data to return";
+        }
+
         headers = Object.keys(Data[0]);
-        for (x = 0; x < Data.length; x += 1) {
-            for (y = 0; y < columns.length; y += 1) {
-                if (typeof columns[y] === "number") {
-                    console.log(Data[x][headers[columns[y]]]);
-                } else {
-                    console.log(Data[x][columns[y]]);
+
+        returnHeaders = '<tr>';
+        if (columns.length === 0) {
+            for (x = 0; x < headers.length; x += 1) {
+                if (headers[x] === 'ID') {
+                    continue;
                 }
+                returnHeaders += '<th>' + headers[x] + '</th>'
+            }
+        } else {
+            for (x = 0; x < columns.length; x += 1) {
+                if (headers[x] === 'ID') {
+                    continue;
+                }
+                returnHeaders += '<th>' + headers[columns[x]] + '</th>';
             }
         }
+        returnHeaders += '</tr>';
+        return returnHeaders;
+
+    }
+
+    this.MDLTableRows = function(columns) {
+        var rows = '', x, y, headers, thisRow, dataType, value, id, header, onclick;
+        if (!dataIsSet) {
+            console.log("Data isn't set, unable to retrieve rows!");
+            return "No data to return";
+        }
+
+        headers = Object.keys(Data[0]);
+
+        if (columns.length === 0) {
+            columns = headers;
+        }
+
+        for (x = 0; x < Data.length; x += 1) {
+            thisRow = '';
+            onclick = '';
+            for (y = 0; y < columns.length; y += 1) {
+                if (typeof columns[y] === "number") {
+                    header = headers[columns[y]];
+                } else {
+                    header = columns[y];
+                }
+                value = Data[x][header];
+
+                if (header.toUpperCase() === "ID") {
+                    onclick = 'onclick="editLink(' + value + ')"';
+                } else {
+                    if (typeof value !== "number") {
+                        dataType = 'class="mdl-data-table__cell--non-numeric "'
+                    }
+                    thisRow += '<td ' + dataType + '>' + value + '</td>'
+                }
+
+                dataType = '';
+            }
+            rows += '<tr ' + onclick + '>' + thisRow + '</tr>';
+        }
+        return rows;
     }
 
     this.setup = function() {

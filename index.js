@@ -34,13 +34,13 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-    data.query("SELECT * FROM WHITELIST");
+    data.query("SELECT * FROM OVNINGAR");
     data.fetch(function() {
 
         res.render('table', {
             title: 'Hem',
-            headers: 'nope',
-            rows: data.MDLTableRows([0, 1]),
+            headers: data.MDLTableHeaders([]),
+            rows: data.MDLTableRows([]),
             addButton: true
         });
     });
@@ -48,11 +48,35 @@ app.get('/', (req, res) => {
 });
 
 app.get('/ovningar', (req, res) => {
-    res.render('table', {
-        title: 'Övningar',
-        headers: '<tr><th>Titel</th><th>Igen</th><th>Tre</th></tr>',
-        rows: '<tr><td class="mdl-data-table__cell--non-numeric">Test</td><td class="mdl-data-table__cell--non-numeric">Hej</td><td class="mdl-data-table__cell--non-numeric">Idag</td></tr>',
-        addButton: true
+    data.query("SELECT ID, NAMN FROM OVNINGAR");
+    data.fetch(function() {
+        res.render('table', {
+            title: 'Övningar',
+            rows: data.MDLTableRows([]),
+            addButton: true
+        });
+    });
+});
+
+app.get('/ovningar/edit/:id', (req, res) =>  {
+    var id = req.params.id;
+
+    if (isNaN(id)) {
+        res.redirect(400, '..');
+        return;
+    }
+    data.query("SELECT ID, NAMN FROM OVNINGAR WHERE ID = $id");
+    data.setParam('$id', id);
+    data.fetch(() => {
+        if (!data.isDataSet()) {
+            res.redirect(404, '..');
+            return;
+        }
+        res.render('card', {
+            title: 'Övningar, edit',
+            cardTitle: 'Redigera övning',
+            cardText: 'id: ' + req.params.id
+        });
     });
 });
 
